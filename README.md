@@ -1,6 +1,5 @@
-# D-bytes
-D-bytes is a website for my team which used as headquarters.
-This project is open source and it's always will be that way.
+# Personal web
+This website is a showcase of my skills and interests.
 
 ## Can I use this website?
 Yes you can! But you must follow MIT license if you doing so. 
@@ -10,7 +9,6 @@ To start website you need to:
 - Create blogs.db database and populate it with `initdb()` method.
 
 ## How to contribute?
-Main branch is locked for security reasons, so you need to follow this instuctions.
 
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature/AmazingFeature`)
@@ -22,5 +20,3 @@ Main branch is locked for security reasons, so you need to follow this instuctio
 ## ToDo
 - [x] Comments and code refactoring
 - [ ] Comments and likes for blog 
-- [ ] Team assets (todo list, members, joining form)
-- [ ] Better frontend
