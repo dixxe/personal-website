@@ -7,6 +7,7 @@ Yes you can! But you must follow MIT license if you doing so.
 To start website you need to:
 - Create .env file and populate it with LOGIN, PASSWORD for admin panel.
 - Create blogs.db database and populate it with `initdb()` method.
+- run compiled binary with `./personal-website ""` to start HTTP website or `./personal-website domain.com subdomain.domain.com` to start HTTPS website
 
 ## How to contribute?
 

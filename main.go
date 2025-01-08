@@ -7,11 +7,15 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/dixxe/personal-website/service/controllers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"golang.org/x/crypto/acme/autocert"
 )
+
+var domains = os.Args[1:]
 
 func main() {
 
@@ -39,9 +43,29 @@ func main() {
 	fs := http.FileServer(http.Dir("resources/static"))
 	r.Handle("/static/*", http.StripPrefix("/static/", fs))
 
-	log.Println("Website started")
+	log.Println(domains)
 
-	if err := http.ListenAndServe(":8080", r); err != nil {
-		log.Fatalln(err)
+	if domains[0] == "" {
+
+		log.Println("HTTP website started")
+		log.Fatal(http.ListenAndServe("localhost:8080", r))
+
+	} else {
+
+		log.Println("HTTPS website started with HTTP redirect.")
+		go redirectHTTPServer()
+		for _, domain := range domains {
+			log.Fatal(http.Serve(autocert.NewListener(domain), r))
+		}
 	}
+}
+
+func redirectHTTPServer() {
+	if err := http.ListenAndServe(":8080", http.HandlerFunc(redirectTLS)); err != nil {
+		log.Fatalf("ListenAndServe error: %v", err)
+	}
+}
+
+func redirectTLS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://"+domains[0]+":443"+r.RequestURI, http.StatusMovedPermanently)
 }
