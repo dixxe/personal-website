@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dixxe/personal-website/service/controllers"
+	"github.com/dixxe/personal-website/iternal/controllers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"golang.org/x/crypto/acme/autocert"
@@ -40,7 +40,7 @@ func main() {
 	r.Post("/admin/login", controllers.PostAdminLogin)
 	r.Get("/admin", controllers.GetAdminLogin)
 
-	fs := http.FileServer(http.Dir("resources/static"))
+	fs := http.FileServer(http.Dir("web/static"))
 	r.Handle("/static/*", http.StripPrefix("/static/", fs))
 
 	log.Println(domains)

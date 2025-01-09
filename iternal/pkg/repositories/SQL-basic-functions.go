@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dixxe/personal-website/service"
+	"github.com/dixxe/personal-website/iternal/pkg"
 )
 
 func OpenDb(database_name string) *sql.DB {
@@ -26,7 +26,7 @@ func OpenDb(database_name string) *sql.DB {
 }
 
 // I don't know a way how to automate this process.
-func InitDb(repo service.Repository[Post]) {
+func InitDb(repo pkg.Repository[Post]) {
 	//defer db.Close()
 
 	repo.ExecSpecific(`

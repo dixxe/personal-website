@@ -12,7 +12,7 @@ func exec_fix_for_db(repo service.Repository[Post]) {
 }
 */
 
-package service
+package pkg
 
 import "database/sql"
 

@@ -14,8 +14,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dixxe/personal-website/resources/templates"
-	"github.com/dixxe/personal-website/service/repositories"
+	"github.com/dixxe/personal-website/iternal/pkg/repositories"
+	"github.com/dixxe/personal-website/web/templates"
 )
 
 func GetShowBlog(w http.ResponseWriter, r *http.Request) {

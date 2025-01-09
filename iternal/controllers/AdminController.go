@@ -22,8 +22,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dixxe/personal-website/resources/templates"
-	"github.com/dixxe/personal-website/service/repositories"
+	"github.com/dixxe/personal-website/web/templates"
+	"github.com/dixxe/personal-website/iternal/pkg/repositories"
 	"github.com/joho/godotenv"
 )
 
