@@ -91,7 +91,7 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for _, post := range posts {
+		for i := len(posts) - 1; i >= 0; i-- {
 			var templ_7745c5c3_Var6 = []any{styling.Textcontainer(), styling.BlogContainer()}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 			if templ_7745c5c3_Err != nil {
@@ -137,9 +137,9 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(post.Header)
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(posts[i].Header)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `resources/templates/blog.templ`, Line: 19, Col: 90}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `resources/templates/blog.templ`, Line: 19, Col: 94}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -150,9 +150,9 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var11 string
-			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(post.Content)
+			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(posts[i].Content)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `resources/templates/blog.templ`, Line: 20, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `resources/templates/blog.templ`, Line: 20, Col: 33}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
