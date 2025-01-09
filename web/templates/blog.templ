@@ -6,6 +6,42 @@ package templates
 
 import "github.com/dixxe/personal-website/web/static/styling"
 import "github.com/dixxe/personal-website/iternal/pkg/repositories"
+import "fmt"
+
+var markedHandle = templ.NewOnceHandle()
+
+templ runMarked(markdown string) {
+
+    @templ.JSONScript("md", markdown)
+
+    @markedHandle.Once() {
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script type="text/javascript">
+
+        const markdown = JSON.parse(document.getElementById('md').textContent);
+        document.getElementById('post-content').innerHTML =
+        marked.parse( markdown );
+
+    </script>
+    }
+    
+}
+
+templ ShowPost(post repositories.Post){
+    @BasicPageBlock()
+
+    <div class={ styling.BlogContainer(), styling.CenterContainer(), styling.Textcontainer() }>
+      <h1 style="font-family: Disket-Mono" class={ styling.Header() }>
+      {post.Header}
+      </h1>
+      <div id="post-content"></div>
+    </div>
+
+    @runMarked(post.Content)
+    
+}
+
 
 templ ShowBlogPage(posts []repositories.Post) {
     @BasicPageBlock()
@@ -16,9 +52,15 @@ templ ShowBlogPage(posts []repositories.Post) {
 
     for i := len(posts) - 1; i>=0; i-- {
         <div class={ styling.Textcontainer(), styling.BlogContainer() }>
-            <h1 style="font-family: Disket-Mono;" class={ styling.Header() }> {posts[i].Header} </h1>
-            <p> {posts[i].Content} </p>
+            <h1 style="font-family: Disket-Mono;">
+            <a class={ styling.Header() } href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>{posts[i].Header}</a>
+            </h1>
+            {{ shortStr := posts[i].Content[:len([]rune(posts[i].Content))/3] }}
+            <p id="post-content"> {shortStr}... </p>
+            <a href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>Читать полностью...</a>
         </div>
       
     }
+
+    @UsefulLinks()
 }

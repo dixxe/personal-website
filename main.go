@@ -34,6 +34,7 @@ func main() {
 	r.Get("/", controllers.GetIndexHandler)
 
 	r.Get("/blog", controllers.GetShowBlog)
+	r.Get("/post/{id}", controllers.GetPost)
 	r.Post("/post", controllers.PostCreatePost)
 	r.Post("/post/delete", controllers.PostDeletePost)
 

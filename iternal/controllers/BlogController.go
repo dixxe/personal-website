@@ -16,6 +16,7 @@ import (
 
 	"github.com/dixxe/personal-website/iternal/pkg/repositories"
 	"github.com/dixxe/personal-website/web/templates"
+	"github.com/go-chi/chi/v5"
 )
 
 func GetShowBlog(w http.ResponseWriter, r *http.Request) {
@@ -30,6 +31,26 @@ func GetShowBlog(w http.ResponseWriter, r *http.Request) {
 
 	component := templates.ShowBlogPage(posts)
 	component.Render(context.Background(), w)
+}
+
+func GetPost(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		component := templates.ErrorPage(500, "Не удалось преобразовать id в целое число.")
+		log.Println(err)
+		component.Render(context.Background(), w)
+		return
+	}
+	post, err := repositories.Blog.GetValueByID(id)
+	if err != nil {
+		component := templates.ErrorPage(404, "Не удалось найти нужный пост.")
+		log.Println(err)
+		component.Render(context.Background(), w)
+		return
+	}
+	component := templates.ShowPost(post)
+	component.Render(context.Background(), w)
+
 }
 
 func PostCreatePost(w http.ResponseWriter, r *http.Request) {

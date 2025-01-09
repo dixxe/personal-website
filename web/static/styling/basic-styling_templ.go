@@ -21,6 +21,24 @@ var bgVariation = "#1f1f1f"   // Color simmilar to bg
 var contrastColor = "#92ffd1" // Contrast to mainColor
 var textColor = "#FFFFFF"
 
+func BlogFormInput() templ.CSSClass {
+	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
+	templ_7745c5c3_CSSBuilder.WriteString(`width:70%;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`height:150px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`padding:12px 20px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`box-sizing:border-box;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`border:2px solid { bgVariation };`)
+	templ_7745c5c3_CSSBuilder.WriteString(`border-radius:4px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`background-color:#f8f8f8;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`font-size:13px;`)
+	templ_7745c5c3_CSSBuilder.WriteString(`resize:none;`)
+	templ_7745c5c3_CSSID := templ.CSSID(`BlogFormInput`, templ_7745c5c3_CSSBuilder.String())
+	return templ.ComponentCSSClass{
+		ID:    templ_7745c5c3_CSSID,
+		Class: templ.SafeCSS(`.` + templ_7745c5c3_CSSID + `{` + templ_7745c5c3_CSSBuilder.String() + `}`),
+	}
+}
+
 func FileHeader() templ.CSSClass {
 	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
 	templ_7745c5c3_CSSBuilder.WriteString(string(templ.SanitizeCSS(`color`, mainColor)))
