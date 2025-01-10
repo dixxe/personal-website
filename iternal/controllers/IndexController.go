@@ -11,6 +11,7 @@ import (
 	"github.com/dixxe/personal-website/web/templates"
 )
 
+// Controller that shows "/" root page.
 func GetIndexHandler(w http.ResponseWriter, r *http.Request) {
 	// Templates are components and this is basic way to render them.
 	// I use this way across all code

@@ -1,6 +1,11 @@
 /*
-Page that shows all passed posts from local sqlite database.
-Dynamicly iterates throught slice elements.
+Template that grew in complexity recently. It's was first template that supports JS.
+
+1. Template contains local templ blocks their names starting with lowercase to make it DRY
+2. JS script is seperated and should be called *after* page construction.
+3. Templ ShowBlogPage contains some math to dynamicly reduce post size
+
+TODO - make it more DRY and modular in general 
 */
 package templates
 
@@ -41,12 +46,12 @@ templ ShowPost(post repositories.Post){
     @blogHeader()
     
     <div class={ styling.BlogContainer(), styling.CenterContainer(), styling.Textcontainer() }>
-      <h1 style="font-family: Disket-Mono" class={ styling.Header() }>
+      <h1 style="font-family: Disket-Mono" class={ styling.Header(), styling.HighlightText() }>
       {post.Header}
       </h1>
       <div id="post-content"></div>
     </div>
-
+    
     @runMarked(post.Content)
 }
 

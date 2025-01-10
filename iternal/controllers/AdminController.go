@@ -22,11 +22,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dixxe/personal-website/web/templates"
 	"github.com/dixxe/personal-website/iternal/pkg/repositories"
+	"github.com/dixxe/personal-website/web/templates"
 	"github.com/joho/godotenv"
 )
 
+// This controller has been written to control databases and blog. SECUIRITY-WARNING!
 func GetAdminPanel(w http.ResponseWriter, r *http.Request) {
 	posts, err := repositories.Blog.GetAllValues()
 
@@ -41,11 +42,15 @@ func GetAdminPanel(w http.ResponseWriter, r *http.Request) {
 	component.Render(context.Background(), w)
 }
 
+// This controller has been written to add protection for admin-panel.
 func GetAdminLogin(w http.ResponseWriter, r *http.Request) {
+	// Respond with page that contains form for login and password.
 	component := templates.LoginPage()
 	component.Render(context.Background(), w)
 }
 
+// This controller handles passed form and checks for its validity.
+// If everything right it passes to GetAdminPanel.
 func PostAdminLogin(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	login := r.FormValue("login")

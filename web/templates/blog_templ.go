@@ -4,10 +4,25 @@
 /*
 
 
-Page that shows all passed posts from local sqlite database.
+Template that grew in complexity recently. It's was first template that supports JS.
 
 
-Dynamicly iterates throught slice elements.
+
+
+
+1. Template contains local templ blocks their names starting with lowercase to make it DRY
+
+
+2. JS script is seperated and should be called *after* page construction.
+
+
+3. Templ ShowBlogPage contains some math to dynamicly reduce post size
+
+
+
+
+
+TODO - make it more DRY and modular in general
 
 
 */
@@ -198,7 +213,7 @@ func ShowPost(post repositories.Post) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var11 = []any{styling.Header()}
+		var templ_7745c5c3_Var11 = []any{styling.Header(), styling.HighlightText()}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -223,7 +238,7 @@ func ShowPost(post repositories.Post) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(post.Header)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 45, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 50, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -327,7 +342,7 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 			var templ_7745c5c3_Var20 string
 			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(posts[i].Header)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 62, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 67, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
@@ -337,9 +352,11 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+
+			// It's probably awfull practice, but here I calculate
+			// post size and make it smaller.. In frontend! Magic!
 			postWords := strings.Fields(posts[i].Content)
 			postCap := int(math.Sqrt(float64(len(postWords)) * 5))
-			//if postCap < 30 {postCap = int(math.Sqrt(float64(len(postWords))*5))}
 			shortStr := postWords[:postCap]
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<p id=\"post-content\">")
 			if templ_7745c5c3_Err != nil {
@@ -348,7 +365,7 @@ func ShowBlogPage(posts []repositories.Post) templ.Component {
 			var templ_7745c5c3_Var21 string
 			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(strings.Join(shortStr, " "))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 73, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/templates/blog.templ`, Line: 80, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 			if templ_7745c5c3_Err != nil {
