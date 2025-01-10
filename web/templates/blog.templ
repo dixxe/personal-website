@@ -7,6 +7,8 @@ package templates
 import "github.com/dixxe/personal-website/web/static/styling"
 import "github.com/dixxe/personal-website/iternal/pkg/repositories"
 import "fmt"
+import "strings"
+import "math"
 
 var markedHandle = templ.NewOnceHandle()
 
@@ -28,9 +30,16 @@ templ runMarked(markdown string) {
     
 }
 
+templ blogHeader() {
+    <h1 class={ styling.FileHeader() } style="font-family: Disket-Mono;">Блог дихуса</h1>
+    <p class={ styling.PostScriptum() }> Вернуться <a href="/">Домой</a> </p>
+    <hr>
+}
+
 templ ShowPost(post repositories.Post){
     @BasicPageBlock()
-
+    @blogHeader()
+    
     <div class={ styling.BlogContainer(), styling.CenterContainer(), styling.Textcontainer() }>
       <h1 style="font-family: Disket-Mono" class={ styling.Header() }>
       {post.Header}
@@ -39,25 +48,34 @@ templ ShowPost(post repositories.Post){
     </div>
 
     @runMarked(post.Content)
-    
 }
 
 
 templ ShowBlogPage(posts []repositories.Post) {
     @BasicPageBlock()
-    
-    <h1 class={ styling.FileHeader() } style="font-family: Disket-Mono;">Блог дихуса</h1>
-    <p class={ styling.PostScriptum() }> Вернуться <a href="/">Домой</a> </p>
-    <hr>
+    @blogHeader()
 
     for i := len(posts) - 1; i>=0; i-- {
         <div class={ styling.Textcontainer(), styling.BlogContainer() }>
             <h1 style="font-family: Disket-Mono;">
-            <a class={ styling.Header() } href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>{posts[i].Header}</a>
+                <a class={ styling.Header() } href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>
+                    {posts[i].Header}
+                </a>
             </h1>
-            {{ shortStr := posts[i].Content[:len([]rune(posts[i].Content))/3] }}
-            <p id="post-content"> {shortStr}... </p>
-            <a href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>Читать полностью...</a>
+            
+            {{  
+                // It's probably awfull practice, but here I calculate
+                // post size and make it smaller.. In frontend! Magic!
+                postWords := strings.Fields(posts[i].Content)
+                postCap := int(math.Sqrt(float64(len(postWords))*5))
+                shortStr := postWords[:postCap]
+            
+            }}
+
+            <p id="post-content"> {strings.Join(shortStr, " ")}... </p>
+            <a class={ styling.HighlightText() } href={ templ.URL(fmt.Sprintf("/post/%v", posts[i].Id)) }>
+            Читать полностью...
+            </a>
         </div>
       
     }
